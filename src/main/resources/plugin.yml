@@ -5,3 +5,7 @@ api-version: 1.19
 authors: [ PonnyTheLight ]
 description: Limit entitys in a Minecraft chunk.
 website: https://discord.gg/epDPg4h7e9
+commands:
+  chunkentitylimiter:
+    description: Main plugin command.
+    aliases: [cel, chunklimiter, entitylimiter]

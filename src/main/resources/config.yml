@@ -1,2 +1,13 @@
 Config:
+  # How many entities can have in one chunk?
   entities-per-chunk: 10
+  items-per-chunk: 10
+  # Check when a player load a chunk if the chunk has more entities than the limit. That can make lag on your server if you have a lot of players.
+  check-chunks-loaded: true
+
+Messages:
+  prefix: "&8[&eChunkEntityLimiter&8] "
+  check-chunk: "&aThis chunk has &f%entities% &aentities. Use &f/cel clear &ato clear entities in this chunk."
+  reload: "&aPlugin reloaded successful."
+  clear-chunk: "&f%entities% &aentities removed from this chunk."
+  automatic-clear-console-log: "&f%entities% &aentities removed from chunk in coordinates: &f%coordinates%"

@@ -14,6 +14,7 @@ public final class ChunkEntityLimiter extends JavaPlugin {
 
         saveDefaultConfig();
         loadEvents();
+        loadCommands();
     }
 
     @Override
@@ -27,6 +28,6 @@ public final class ChunkEntityLimiter extends JavaPlugin {
     }
 
     public void loadCommands() {
-        getCommand("chunkentitylimiter").setExecutor(new mainCMD());
+        getCommand("chunkentitylimiter").setExecutor(new mainCMD(this));
     }
 }
