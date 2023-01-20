@@ -1,6 +1,7 @@
 package es.ponnythelight.chunkentitylimiter;
 
 import es.ponnythelight.cmds.mainCMD;
+import es.ponnythelight.gui.configGUI;
 import es.ponnythelight.listeners.checkListener;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +26,7 @@ public final class ChunkEntityLimiter extends JavaPlugin {
 
     public void loadEvents(){
         getServer().getPluginManager().registerEvents(new checkListener(this), this);
+        getServer().getPluginManager().registerEvents(new configGUI(this), this);
     }
 
     public void loadCommands() {

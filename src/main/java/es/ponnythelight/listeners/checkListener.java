@@ -6,9 +6,11 @@ import org.bukkit.Chunk;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 
 import java.util.List;
@@ -34,20 +36,37 @@ public class checkListener implements Listener {
         List<Entity> en = List.of(chunk.getEntities());
 
         AtomicInteger count = new AtomicInteger();
+        AtomicInteger counti = new AtomicInteger();
 
         en.stream().forEach(k -> {
-            if (k.getType().equals(EntityType.DROPPED_ITEM)) return;
-            if (k.getType().equals(EntityType.PLAYER)) return;
-            if (k.getType().equals(EntityType.ITEM_FRAME)) return;
-            if (k.getType().equals(EntityType.UNKNOWN)) return;
-            if (k.getType().equals(EntityType.EXPERIENCE_ORB)) return;
+            if (k.getType().equals(EntityType.DROPPED_ITEM)) {
+                counti.getAndIncrement();
 
-            count.getAndIncrement();
+                if (counti.get() >= config.getInt("Config.dropped-items-per-chunk")) {
+                    System.out.println("Spawn");
+                    e.setCancelled(true);
+                }
+
+            } else
+            if (k.getType().equals(EntityType.PLAYER)) {
+
+            } else
+            if (k.getType().equals(EntityType.ITEM_FRAME)) {
+
+            } else
+            if (k.getType().equals(EntityType.UNKNOWN)) {
+
+            } else
+            if (k.getType().equals(EntityType.EXPERIENCE_ORB)) {
+
+            } else {
+                count.getAndIncrement();
+
+                if (count.get() >= config.getInt("Config.entities-per-chunk")) {
+                    e.setCancelled(true);
+                }
+            }
         });
-
-        if (count.get() >= config.getInt("Config.entities-per-chunk")) {
-            e.setCancelled(true);
-        }
     }
 
     @EventHandler
@@ -58,18 +77,34 @@ public class checkListener implements Listener {
         List<Entity> en = List.of(chunk.getEntities());
 
         AtomicInteger count = new AtomicInteger();
+        AtomicInteger counti = new AtomicInteger();
 
         en.stream().forEach(k -> {
-            if (k.getType().equals(EntityType.DROPPED_ITEM)) return;
-            if (k.getType().equals(EntityType.PLAYER)) return;
-            if (k.getType().equals(EntityType.ITEM_FRAME)) return;
-            if (k.getType().equals(EntityType.UNKNOWN)) return;
-            if (k.getType().equals(EntityType.EXPERIENCE_ORB)) return;
+            if (k.getType().equals(EntityType.DROPPED_ITEM)) {
+                counti.getAndIncrement();
 
-            count.getAndIncrement();
+                if (counti.get() >= config.getInt("Config.dropped-items-per-chunk")) {
+                    k.remove();
+                }
 
-            if (count.get() > config.getInt("Config.entities-per-chunk")) {
-                k.remove();
+            } else
+            if (k.getType().equals(EntityType.PLAYER)) {
+
+            } else
+            if (k.getType().equals(EntityType.ITEM_FRAME)) {
+
+            } else
+            if (k.getType().equals(EntityType.UNKNOWN)) {
+
+            } else
+            if (k.getType().equals(EntityType.EXPERIENCE_ORB)) {
+
+            } else {
+                count.getAndIncrement();
+
+                if (count.get() > config.getInt("Config.entities-per-chunk")) {
+                    k.remove();
+                }
             }
         });
 
@@ -82,6 +117,32 @@ public class checkListener implements Listener {
                             .replaceAll("%coordinates%", cords)
             ));
         }
+    }
+
+    @EventHandler
+    public void playerDropItem(PlayerDropItemEvent e) {
+        Player player = e.getPlayer();
+        Configuration config = plugin.getConfig();
+
+        Chunk chunk = player.getLocation().getChunk();
+
+        List<Entity> en = List.of(chunk.getEntities());
+
+        AtomicInteger counti = new AtomicInteger();
+
+        en.stream().forEach(k -> {
+
+            if (k.getType().equals(EntityType.DROPPED_ITEM)) {
+                counti.getAndIncrement();
+
+                if (counti.get() >= config.getInt("Config.dropped-items-per-chunk")) {
+                    System.out.println("Spawn");
+                    e.setCancelled(true);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.max-dropped-items")));
+                }
+
+            }
+        });
     }
 
 

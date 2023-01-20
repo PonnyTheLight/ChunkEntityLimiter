@@ -1,6 +1,7 @@
 package es.ponnythelight.cmds;
 
 import es.ponnythelight.chunkentitylimiter.ChunkEntityLimiter;
+import es.ponnythelight.gui.configGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
@@ -28,16 +29,6 @@ public class mainCMD implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             Configuration config = plugin.getConfig();
-
-            List<String> names = new ArrayList<>();
-            names.add("Alvaro");
-            names.add("Raul");
-            names.add("Jose");
-            names.add("Ramon");
-
-            for (String name : names) {
-                System.out.println(name);
-            }
 
 
             if (args.length == 0) {
@@ -73,6 +64,22 @@ public class mainCMD implements CommandExecutor {
 
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.check-chunk")
                         .replaceAll("%entities%", Integer.toString(count.get()))));
+            }
+                else if (args[0].equalsIgnoreCase("checkdropped") && player.hasPermission("chunkentitylimit.checkdropped")) {
+                    Chunk chunk = player.getLocation().getChunk();
+
+                    List<Entity> en = List.of(chunk.getEntities());
+
+                    AtomicInteger counti = new AtomicInteger();
+
+                    en.stream().forEach(k -> {
+                        if (k.getType().equals(EntityType.DROPPED_ITEM)) {
+                            counti.getAndIncrement();
+                        }
+                    });
+
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + "%entities% dropped items in this chunk.%")
+                            .replaceAll("%entities%", Integer.toString(counti.get())));
             } else if (args[0].equalsIgnoreCase("clear") && player.hasPermission("chunkentitylimit.clear")) {
                 Chunk chunk = player.getLocation().getChunk();
 
@@ -92,6 +99,10 @@ public class mainCMD implements CommandExecutor {
                 });
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.clear-chunk")
                         .replaceAll("%entities%", Integer.toString(count.get()))));
+            } else if (args[0].equalsIgnoreCase("config") && player.hasPermission("chunkentitylimit.config")) {
+                configGUI gui = new configGUI(plugin);
+
+                gui.openInventory(player);
             }
         }
         return false;
