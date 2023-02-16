@@ -9,3 +9,5 @@ You can join to our [Discord Server](https://discord.gg/epDPg4h7e9) to get help 
 
 # License
 &copy; [License for ChunkEntityLimiter](https://github.com/PonnyTheLight/ChunkEntityLimiter/blob/master/LICENSE "License for ChunkEntityLimiter")
+
+# Branch For >1.18 Minecraft Versions.

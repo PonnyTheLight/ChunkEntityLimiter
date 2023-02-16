@@ -1,7 +1,7 @@
 name: ChunkEntityLimiter
 version: '${project.version}'
 main: es.ponnythelight.chunkentitylimiter.ChunkEntityLimiter
-api-version: 1.13
+api-version: 1.18
 authors: [ PonnyTheLight ]
 description: Limit entitys in a Minecraft chunk.
 website: https://discord.gg/epDPg4h7e9

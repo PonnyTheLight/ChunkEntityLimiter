@@ -88,7 +88,7 @@ public class mainCMD implements CommandExecutor {
                             }
                         });
 
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + "%entities% dropped items in this chunk.%")
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.dropped"))
                                 .replaceAll("%entities%", Integer.toString(counti.get())));
                     } else {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.perms")));
