@@ -32,7 +32,7 @@ public class configGUI implements Listener {
     public configGUI(ChunkEntityLimiter plugin) {
         this.plugin = plugin;
 
-        inv = Bukkit.createInventory(null, 27, ChatColor.translateAlternateColorCodes('&', "&8[&eChunkEntityLimiter&8]"));
+        inv = Bukkit.createInventory(new PonnyHolder(), 27, ChatColor.translateAlternateColorCodes('&', "&8[&eChunkEntityLimiter&8]"));
 
         initializeItems(true, 0);
     }
@@ -110,10 +110,9 @@ public class configGUI implements Listener {
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent e) {
 
-        plugin.getServer().getConsoleSender().sendMessage(String.valueOf(e.getInventory().getItem(14).getItemMeta().equals(inv.getItem(14).getItemMeta())));
         Configuration config = plugin.getConfig();
 
-        if (!e.getInventory().getItem(10).getItemMeta().equals(inv.getItem(10).getItemMeta())) return;
+        if (!(e.getInventory().getHolder() instanceof PonnyHolder)) return;
 
         e.setCancelled(true);
 
@@ -192,9 +191,8 @@ public class configGUI implements Listener {
 
     @EventHandler
     public void onInventoryDrag(final InventoryDragEvent e) {
-        plugin.getServer().getConsoleSender().sendMessage("Debug 2");
 
-        if (!e.getInventory().getItem(10).getItemMeta().equals(inv.getItem(10).getItemMeta())) return;
+        if (!(e.getInventory().getHolder() instanceof PonnyHolder)) return;
 
         e.setCancelled(true);
     }
