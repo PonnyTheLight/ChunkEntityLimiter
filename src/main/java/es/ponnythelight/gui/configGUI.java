@@ -40,7 +40,7 @@ public class configGUI implements Listener {
         Configuration config = plugin.getConfig();
 
         if (slot == 10 || all) {
-            final ItemStack item1 = new ItemStack(Material.MONSTER_EGG, 1);
+            final ItemStack item1 = new ItemStack(Material.WOLF_SPAWN_EGG, 1);
             final ItemMeta meta1 = item1.getItemMeta();
 
             meta1.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&eEntities Per Chunk"));
@@ -60,7 +60,7 @@ public class configGUI implements Listener {
 
         // ANOTHER ITEM
         if (slot == 12 || all) {
-            final ItemStack item2 = new ItemStack(Material.POTATO_ITEM, 1);
+            final ItemStack item2 = new ItemStack(Material.POTATO, 1);
             final ItemMeta meta2 = item2.getItemMeta();
 
             meta2.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&eDropped Items Per Chunk"));
@@ -81,7 +81,7 @@ public class configGUI implements Listener {
         // ANOTHER ITEM
         if (slot == 14 || all) {
 
-            final ItemStack item3 = new ItemStack(Material.GRASS, 1);
+            final ItemStack item3 = new ItemStack(Material.GRASS_BLOCK, 1);
             final ItemMeta meta3 = item3.getItemMeta();
 
             meta3.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&eCheck Chunks Loaded"));
@@ -188,10 +188,12 @@ public class configGUI implements Listener {
     }
 
     @EventHandler
-    public void onInventoryClick(final InventoryDragEvent e) {
-        if (!e.getInventory().getName().equals(inv.getName())) {
-            e.setCancelled(true);
-        }
+    public void onInventoryDrag(final InventoryDragEvent e) {
+        System.out.println("Debug: 1");
+
+        if (!e.getInventory().getName().equals(inv.getName())) return;
+
+        e.setCancelled(true);
     }
 
     @EventHandler

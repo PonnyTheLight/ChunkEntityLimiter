@@ -5,7 +5,7 @@ the maximun entity per chunk limit configured in the config.yml file. If the chu
 entities in this chunk.
 
 # Support
-You can join to our [Discord Server](https://discord.gg/epDPg4h7e9) to get help with this plugin and suggest what you want for this plugin.
+You can join to our [Discord Server](https://discord.gg/epDPg4h7e9) to get help for my plugins and suggest what you want for this plugin.
 
 # License
 &copy; [License for ChunkEntityLimiter](https://github.com/PonnyTheLight/ChunkEntityLimiter/blob/master/LICENSE "License for ChunkEntityLimiter")

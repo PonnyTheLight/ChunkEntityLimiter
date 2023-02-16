@@ -13,6 +13,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -42,67 +43,88 @@ public class mainCMD implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a/cel clear &f- Clear chunk entities."));
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', " "));
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&m------&a[ &fChunkEntityLimiter &a]&a&m------"));
-            } else if (args[0].equalsIgnoreCase("reload") && player.hasPermission("chunkentitylimit.reload")) {
-                plugin.reloadConfig();
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.reload")));
-            } else if (args[0].equalsIgnoreCase("check") && player.hasPermission("chunkentitylimit.check")) {
-                Chunk chunk = player.getLocation().getChunk();
-
-                List<Entity> en = List.of(chunk.getEntities());
-
-                AtomicInteger count = new AtomicInteger();
-
-                en.stream().forEach(k -> {
-                    if (k.getType().equals(EntityType.DROPPED_ITEM)) return;
-                    if (k.getType().equals(EntityType.PLAYER)) return;
-                    if (k.getType().equals(EntityType.ITEM_FRAME)) return;
-                    if (k.getType().equals(EntityType.UNKNOWN)) return;
-                    if (k.getType().equals(EntityType.EXPERIENCE_ORB)) return;
-
-                    count.getAndIncrement();
-                });
-
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.check-chunk")
-                        .replaceAll("%entities%", Integer.toString(count.get()))));
-            }
-                else if (args[0].equalsIgnoreCase("checkdropped") && player.hasPermission("chunkentitylimit.checkdropped")) {
+            } else if (args[0].equalsIgnoreCase("reload")) {
+                if (player.hasPermission("chunkentitylimit.reload")) {
+                    plugin.reloadConfig();
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.reload")));
+                } else {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.perms")));
+                }
+            } else if (args[0].equalsIgnoreCase("check")) {
+                if (player.hasPermission("chunkentitylimit.check")) {
                     Chunk chunk = player.getLocation().getChunk();
 
-                    List<Entity> en = List.of(chunk.getEntities());
+                    List<Entity> en = Arrays.asList(chunk.getEntities());
 
-                    AtomicInteger counti = new AtomicInteger();
+                    AtomicInteger count = new AtomicInteger();
 
                     en.stream().forEach(k -> {
-                        if (k.getType().equals(EntityType.DROPPED_ITEM)) {
-                            counti.getAndIncrement();
-                        }
+                        if (k.getType().equals(EntityType.DROPPED_ITEM)) return;
+                        if (k.getType().equals(EntityType.PLAYER)) return;
+                        if (k.getType().equals(EntityType.ITEM_FRAME)) return;
+                        if (k.getType().equals(EntityType.UNKNOWN)) return;
+                        if (k.getType().equals(EntityType.EXPERIENCE_ORB)) return;
+
+                        count.getAndIncrement();
                     });
 
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + "%entities% dropped items in this chunk.%")
-                            .replaceAll("%entities%", Integer.toString(counti.get())));
-            } else if (args[0].equalsIgnoreCase("clear") && player.hasPermission("chunkentitylimit.clear")) {
-                Chunk chunk = player.getLocation().getChunk();
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.check-chunk")
+                            .replaceAll("%entities%", Integer.toString(count.get()))));
+                } else {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.perms")));
+                }
+            }
+                else if (args[0].equalsIgnoreCase("checkdropped")) {
+                    if (player.hasPermission("chunkentitylimit.checkdropped")) {
+                        Chunk chunk = player.getLocation().getChunk();
 
-                List<Entity> en = List.of(chunk.getEntities());
+                        List<Entity> en = Arrays.asList(chunk.getEntities());
 
-                AtomicInteger count = new AtomicInteger();
+                        AtomicInteger counti = new AtomicInteger();
 
-                en.stream().forEach(k -> {
-                    if (k.getType().equals(EntityType.DROPPED_ITEM)) return;
-                    if (k.getType().equals(EntityType.PLAYER)) return;
-                    if (k.getType().equals(EntityType.ITEM_FRAME)) return;
-                    if (k.getType().equals(EntityType.UNKNOWN)) return;
-                    if (k.getType().equals(EntityType.EXPERIENCE_ORB)) return;
+                        en.stream().forEach(k -> {
+                            if (k.getType().equals(EntityType.DROPPED_ITEM)) {
+                                counti.getAndIncrement();
+                            }
+                        });
 
-                    count.getAndIncrement();
-                    k.remove();
-                });
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.clear-chunk")
-                        .replaceAll("%entities%", Integer.toString(count.get()))));
-            } else if (args[0].equalsIgnoreCase("config") && player.hasPermission("chunkentitylimit.config")) {
-                configGUI gui = new configGUI(plugin);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + "%entities% dropped items in this chunk.%")
+                                .replaceAll("%entities%", Integer.toString(counti.get())));
+                    } else {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.perms")));
+                    }
+            } else if (args[0].equalsIgnoreCase("clear")) {
+                    if (player.hasPermission("chunkentitylimit.clear")) {
+                        Chunk chunk = player.getLocation().getChunk();
 
-                gui.openInventory(player);
+                        List<Entity> en = Arrays.asList(chunk.getEntities());
+
+                        AtomicInteger count = new AtomicInteger();
+
+                        en.stream().forEach(k -> {
+                            if (k.getType().equals(EntityType.PLAYER)) return;
+                            if (k.getType().equals(EntityType.ITEM_FRAME)) return;
+                            if (k.getType().equals(EntityType.UNKNOWN)) return;
+                            if (k.getType().equals(EntityType.EXPERIENCE_ORB)) return;
+
+                            count.getAndIncrement();
+                            k.remove();
+                        });
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.clear-chunk")
+                                .replaceAll("%entities%", Integer.toString(count.get()))));
+                    } else {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.perms")));
+                    }
+            } else if (args[0].equalsIgnoreCase("config")) {
+                    if (player.hasPermission("chunkentitylimit.config")) {
+                        configGUI gui = new configGUI(plugin);
+
+                        gui.openInventory(player);
+                    } else {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.perms")));
+                    }
+            } else {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.ncmd")));
             }
         }
         return false;

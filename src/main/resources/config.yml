@@ -1,13 +1,18 @@
+# If you have any suggestion or idea for that plugins, join our Discord Server!
+# https://discord.gg/epDPg4h7e9
+
 Config:
   # How many entities can have per chunk?
-  entities-per-chunk: 10
+  entities-per-chunk: 15
   # How many items dropped can have per chunk?
-  dropped-items-per-chunk: 5
+  dropped-items-per-chunk: 30
   # Check when a player load a chunk if the chunk has more entities than the limit. That can make lag on your server if you have a lot of players.
   check-chunks-loaded: true
 
 Messages:
   prefix: "&8[&eChunkEntityLimiter&8] "
+  perms: "&cSorry but you dont have permissions to do this."
+  ncmd: "&cSorry but this plugin not have a command with this arguments, you can use &f/cel help &cto see all the commands."
   check-chunk: "&aThis chunk has &f%entities% &aentities. Use &f/cel clear &ato clear entities in this chunk."
   reload: "&aPlugin reloaded successful."
   clear-chunk: "&f%entities% &aentities removed from this chunk."
