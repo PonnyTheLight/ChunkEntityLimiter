@@ -9,11 +9,13 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 
 import java.util.Arrays;
@@ -140,19 +142,6 @@ public class checkListener implements Listener {
 
         AtomicInteger counti = new AtomicInteger();
 
-//        en.stream().forEach(k -> {
-//
-//            if (k.getType().equals(EntityType.DROPPED_ITEM)) {
-//                counti.getAndIncrement();
-//
-//                if (counti.get() >= config.getInt("Config.dropped-items-per-chunk")) {
-//                    System.out.println("Spawn");
-//                    e.setCancelled(true);
-//                    return player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.prefix") + config.getString("Messages.max-dropped-items")));
-//                }
-//
-//            }
-//        });
 
         for (Entity i : en) {
             if (i.getType().equals(EntityType.DROPPED_ITEM)) {
@@ -166,6 +155,57 @@ public class checkListener implements Listener {
 
             }
         }
+    }
+
+    @EventHandler
+    public void PlayerInteract(VehicleCreateEvent e) {
+        Configuration config = plugin.getConfig();
+        Vehicle v = e.getVehicle();
+
+        Chunk chunk = v.getLocation().getChunk();
+
+        List<Entity> en = Arrays.asList(chunk.getEntities());
+        AtomicInteger countp = new AtomicInteger();
+
+        en.forEach(k -> {
+            if (k.getType().equals(EntityType.MINECART)) {
+                countp.getAndIncrement();
+
+                if (countp.get() >= config.getInt("Config.entities-per-chunk")) {
+                    e.setCancelled(true);
+                }
+            } else if (k.getType().equals(EntityType.MINECART_CHEST)) {
+                countp.getAndIncrement();
+
+                if (countp.get() >= config.getInt("Config.entities-per-chunk")) {
+                    e.setCancelled(true);
+                }
+            } else if (k.getType().equals(EntityType.MINECART_FURNACE)) {
+                countp.getAndIncrement();
+
+                if (countp.get() >= config.getInt("Config.entities-per-chunk")) {
+                    e.setCancelled(true);
+                }
+            } else if (k.getType().equals(EntityType.MINECART_HOPPER)) {
+                countp.getAndIncrement();
+
+                if (countp.get() >= config.getInt("Config.entities-per-chunk")) {
+                    e.setCancelled(true);
+                }
+            } else if (k.getType().equals(EntityType.MINECART_TNT)) {
+                countp.getAndIncrement();
+
+                if (countp.get() >= config.getInt("Config.entities-per-chunk")) {
+                    e.setCancelled(true);
+                }
+            } else if (k.getType().equals(EntityType.MINECART_MOB_SPAWNER)) {
+                countp.getAndIncrement();
+
+                if (countp.get() >= config.getInt("Config.entities-per-chunk")) {
+                    e.setCancelled(true);
+                }
+            }
+        });
     }
 
 
