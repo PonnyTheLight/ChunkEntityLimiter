@@ -163,7 +163,6 @@ public class checkListener implements Listener {
         en.forEach(k -> {
             if (k.getType().equals(EntityType.MINECART)) {
                 countp.getAndIncrement();
-                plugin.getServer().getConsoleSender().sendMessage(String.valueOf(countp));
 
                 if (countp.get() >= config.getInt("Config.entities-per-chunk")) {
                     e.setCancelled(true);
